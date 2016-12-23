@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.google.gson.JsonSerializer;
+
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;

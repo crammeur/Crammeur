@@ -1,5 +1,8 @@
 package ca.qc.bergeron.marcantoine.crammeur.repository.i;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.util.Set;
 
 import ca.qc.bergeron.marcantoine.crammeur.exceptions.repository.DeleteException;
@@ -10,12 +13,17 @@ import ca.qc.bergeron.marcantoine.crammeur.model.i.Data;
  */
 
 public interface Repository {
-    Object save(Data pData) throws KeyException;
-    Iterable<Data<?>> getAll(Class<? extends Data> pClass);
-    Set<?> getAllKeys(Class<? extends Data> pClass);
-    Data<?> getByKey(Class<? extends Data> pClass, Object pKey);
-    Iterable<Data<Object>> getByKeys(Class<? extends Data> pClass, Set<Object> pKeys);
-    boolean contains(Class<? extends Data> pClass);
-    void delete(Data pData) throws KeyException, DeleteException;
+    @NonNull
+    Object save(@NonNull Data pData) throws KeyException;
+    @NonNull
+    Iterable<Data<?>> getAll(@NonNull Class<? extends Data> pClass);
+    @NonNull
+    Set<?> getAllKeys(@NonNull Class<? extends Data> pClass);
+    @Nullable
+    Data<?> getByKey(@NonNull Class<? extends Data> pClass, @NonNull Object pKey);
+    @NonNull
+    Iterable<Data<Object>> getByKeys(@NonNull Class<? extends Data> pClass, @NonNull Set<Object> pKeys);
+    boolean contains(@NonNull Class<? extends Data> pClass);
+    void delete(@NonNull Data pData) throws KeyException, DeleteException;
     void clear();
 }
