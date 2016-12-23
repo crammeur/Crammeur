@@ -4,6 +4,7 @@
 
 package ca.qc.bergeron.marcantoine.crammeur.repository;
 
+import android.support.annotation.BoolRes;
 import android.support.annotation.NonNull;
 
 import java.math.BigInteger;
@@ -44,16 +45,19 @@ public abstract class DataFramework<T extends Data<K>, K> implements ca.qc.berge
      */
     public boolean contains(T pData) {
         synchronized (mClazz) {
+            boolean result = false;
             if (pData.getId() != null) {
-                return this.contains(pData.getId());
+                result = this.contains(pData.getId());
             } else {
                 for (T data : this.getAll()) {
                     data.setId(null);
-                    if (data.toString().equals(pData.toString()))
-                        return true;
+                    if (data.toString().equals(pData.toString())) {
+                        result = true;
+                        return result;
+                    }
                 }
-                return false;
             }
+            return result;
         }
     }
 
