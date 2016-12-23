@@ -87,6 +87,11 @@ public class SQLiteProduct extends SQLiteTemplate<Product, Integer> {
     }
 
     @Override
+    public Iterable<Integer> save(Product... pDatas) throws KeyException {
+        return null;
+    }
+
+    @Override
     public Iterable<Product> getAll() {
         return null;
     }
