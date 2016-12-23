@@ -3,10 +3,14 @@ package ca.qc.bergeron.marcantoine.crammeur;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.io.File;
+import java.util.List;
 
 import ca.qc.bergeron.marcantoine.crammeur.exceptions.repository.DeleteException;
 import ca.qc.bergeron.marcantoine.crammeur.exceptions.repository.KeyException;
@@ -25,7 +29,30 @@ public class RepositoryTest {
 
     @Before
     public void doBefore() {
-        repository = new Repository(InstrumentationRegistry.getContext().getFilesDir());
+        repository = new Repository(InstrumentationRegistry.getContext(), new File(InstrumentationRegistry.getContext().getFilesDir(),"Test"));
+        Product p = new Product("Test",new Company("Test"),"",0.1,100);
+        for (int i=0; i<100; i++) {
+            try {
+                repository.save(p);
+                p.setId(null);
+                p.Company.setId(null);
+            } catch (KeyException e) {
+                e.printStackTrace();
+                Assert.fail();
+            }
+        }
+    }
+
+    @After
+    public void doAfter() {
+        repository.clear();
+    }
+
+    @Test
+    public void testRepositoryGetAll() {
+        List l = (List) repository.getAll(Company.class);
+        l.clear();
+        Assert.assertTrue(l.size() == 0);
     }
 
     @Test
@@ -45,6 +72,20 @@ public class RepositoryTest {
         Assert.assertTrue(company.getId() == repository.save(company));
         Assert.assertTrue(company.getName() != ((Company) repository.getByKey(Company.class, key)).getName());
         Assert.assertTrue(company.getName().equals(((Company) repository.getByKey(Company.class, key)).getName()));
+    }
+
+    @Test
+    public void testSave3() {
+        Company c = new Company("Test");
+        for (int i=0; i<100; i++) {
+            try {
+                repository.save(c);
+                c.setId(null);
+            } catch (KeyException e) {
+                e.printStackTrace();
+                Assert.fail();
+            }
+        }
     }
 
     @Test

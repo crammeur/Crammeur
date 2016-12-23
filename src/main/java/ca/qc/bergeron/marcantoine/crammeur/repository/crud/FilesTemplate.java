@@ -4,6 +4,7 @@
 
 package ca.qc.bergeron.marcantoine.crammeur.repository.crud;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -52,21 +53,30 @@ public class FilesTemplate<T extends Data<K>, K> extends CRUD<T, K> {
             mFolderData.mkdirs();
             mIndexKeys = new File(mFolderData, "IndexKeys");
             if (!mIndexKeys.createNewFile()) {
-                FileInputStream fis = new FileInputStream(mIndexKeys);
-                ObjectInputStream ois = new ObjectInputStream(fis);
-                mKeysMap = (Map<String, K>) ois.readObject();
-                ois.close();
-                fis.close();
+                try{
+                    FileInputStream fis = new FileInputStream(mIndexKeys);
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+                    mKeysMap = (Map<String, K>) ois.readObject();
+                    ois.close();
+                    fis.close();
+                } catch (EOFException e) {
+                    mKeysMap = new HashMap<>();
+                }
+
             } else {
                 mKeysMap = new HashMap<>();
             }
             if (mKeys == null) {
                 if (!mRelationKeys.createNewFile()) {
-                    FileInputStream fis = new FileInputStream(mRelationKeys);
-                    ObjectInputStream ois = new ObjectInputStream(fis);
-                    mKeys = (Map<Class, Set<Key>>) ois.readObject();
-                    ois.close();
-                    fis.close();
+                    try {
+                        FileInputStream fis = new FileInputStream(mRelationKeys);
+                        ObjectInputStream ois = new ObjectInputStream(fis);
+                        mKeys = (Map<Class, Set<Key>>) ois.readObject();
+                        ois.close();
+                        fis.close();
+                    } catch (EOFException e) {
+                        mKeys = new HashMap<>();
+                    }
                 } else {
                     mKeys = new HashMap<>();
                 }

@@ -7,6 +7,8 @@ package ca.qc.bergeron.marcantoine.crammeur.repository.crud;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import org.w3c.dom.ls.LSInput;
+
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -154,6 +156,16 @@ abstract class CRUD<T extends ca.qc.bergeron.marcantoine.crammeur.model.i.Data<K
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    @NonNull
+    @Override
+    public final List<K> save(@NonNull T... pEntitys) throws KeyException {
+        List<K> result = new ArrayList<>();
+        for (T entity : pEntitys) {
+            result.add(this.save(entity));
+        }
+        return result;
     }
 
     @NonNull
