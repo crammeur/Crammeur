@@ -52,7 +52,7 @@ public class FilesTemplate<T extends Data<K>, K> extends CRUD<T, K> {
             mRelationKeys = new File(mBase, "Index");
             mFolderData.mkdirs();
             mIndexKeys = new File(mFolderData, "IndexKeys");
-            if (!mIndexKeys.createNewFile()) {
+            if (false && !mIndexKeys.createNewFile()) {
                 try{
                     FileInputStream fis = new FileInputStream(mIndexKeys);
                     ObjectInputStream ois = new ObjectInputStream(fis);
@@ -67,7 +67,7 @@ public class FilesTemplate<T extends Data<K>, K> extends CRUD<T, K> {
                 mKeysMap = new HashMap<>();
             }
             if (mKeys == null) {
-                if (!mRelationKeys.createNewFile()) {
+                if (false && !mRelationKeys.createNewFile()) {
                     try {
                         FileInputStream fis = new FileInputStream(mRelationKeys);
                         ObjectInputStream ois = new ObjectInputStream(fis);
@@ -217,26 +217,13 @@ public class FilesTemplate<T extends Data<K>, K> extends CRUD<T, K> {
     }
 
     @Override
-    public final void clearTable() {
-        for (K key : getAllKeys()) {
-            try {
-                this.delete(key);
-            } catch (KeyException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            } catch (DeleteException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
-    @Override
     public final void deleteTable() {
-        System.gc();
         clearTable();
+        for (File f : mFolderData.listFiles()){
+            f.delete();
+            System.gc();
+        }
         if (!mFolderData.delete()) throw new RuntimeException("Delete Table");
-        updateIndex();
     }
 
     /**

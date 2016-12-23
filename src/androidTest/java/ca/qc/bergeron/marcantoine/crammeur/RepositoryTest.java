@@ -30,29 +30,11 @@ public class RepositoryTest {
     @Before
     public void doBefore() {
         repository = new Repository(InstrumentationRegistry.getContext(), new File(InstrumentationRegistry.getContext().getFilesDir(),"Test"));
-        Product p = new Product("Test",new Company("Test"),"",0.1,100);
-        for (int i=0; i<100; i++) {
-            try {
-                repository.save(p);
-                p.setId(null);
-                p.Company.setId(null);
-            } catch (KeyException e) {
-                e.printStackTrace();
-                Assert.fail();
-            }
-        }
     }
 
     @After
     public void doAfter() {
         repository.clear();
-    }
-
-    @Test
-    public void testRepositoryGetAll() {
-        List l = (List) repository.getAll(Company.class);
-        l.clear();
-        Assert.assertTrue(l.size() == 0);
     }
 
     @Test
@@ -74,7 +56,7 @@ public class RepositoryTest {
         Assert.assertTrue(company.getName().equals(((Company) repository.getByKey(Company.class, key)).getName()));
     }
 
-    @Test
+    @Test(timeout = 1000)
     public void testSave3() {
         Company c = new Company("Test");
         for (int i=0; i<100; i++) {
