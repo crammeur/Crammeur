@@ -7,16 +7,6 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.lang.reflect.InvocationTargetException;
-
-import ca.qc.bergeron.marcantoine.crammeur.exceptions.repository.DeleteException;
-import ca.qc.bergeron.marcantoine.crammeur.exceptions.repository.KeyException;
-import ca.qc.bergeron.marcantoine.crammeur.model.Data;
-import ca.qc.bergeron.marcantoine.crammeur.model.entity.Company;
-import ca.qc.bergeron.marcantoine.crammeur.model.entity.Product;
-import ca.qc.bergeron.marcantoine.crammeur.repository.Repository;
-import ca.qc.bergeron.marcantoine.crammeur.repository.i.DataFramework;
-
 import static org.junit.Assert.*;
 
 /**
