@@ -191,10 +191,8 @@ public final class Repository implements ca.qc.bergeron.marcantoine.crammeur.rep
      * @param pData
      * @throws KeyException
      * @throws DeleteException
-     * @throws ClassNotFoundException
-     * @throws IllegalAccessException
      */
-    public final void delete(ca.qc.bergeron.marcantoine.crammeur.model.i.Data pData) throws KeyException, DeleteException, ClassNotFoundException {
+    public final void delete(ca.qc.bergeron.marcantoine.crammeur.model.i.Data pData) throws KeyException, DeleteException {
         this.delete(pData.getClass(), pData.getId());
     }
 
