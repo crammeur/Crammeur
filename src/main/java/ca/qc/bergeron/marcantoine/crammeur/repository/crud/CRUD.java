@@ -31,6 +31,27 @@ import ca.qc.bergeron.marcantoine.crammeur.repository.Repository;
  */
 abstract class CRUD<T extends ca.qc.bergeron.marcantoine.crammeur.model.i.Data<K>, K> extends DataFramework<T, K> implements ca.qc.bergeron.marcantoine.crammeur.repository.crud.i.CRUD<T, K> {
 
+    static class Key implements Serializable {
+        Object mKey1;
+        Object mKey2;
+        Class<? extends ca.qc.bergeron.marcantoine.crammeur.model.i.Data> mClass;
+
+        public Key(@NonNull Object pKey1, @NonNull Object pkey2, @NonNull Class<? extends ca.qc.bergeron.marcantoine.crammeur.model.i.Data> pClass) {
+            mKey1 = pKey1;
+            mKey2 = pkey2;
+            mClass = pClass;
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = 1;
+            hash = hash * 2 + mKey1.hashCode();
+            hash = hash * 22 + mKey2.hashCode();
+            hash = hash * 222 + mClass.hashCode();
+            return hash;
+        }
+    }
+
     static Map<Class, Set<Key>> mKeys = null;
     protected transient final Set<Field> mBDField;
     protected final boolean mRollBack;
@@ -435,26 +456,5 @@ abstract class CRUD<T extends ca.qc.bergeron.marcantoine.crammeur.model.i.Data<K
     }
 
     public abstract void deleteTable();
-
-    static class Key implements Serializable {
-        Object mKey1;
-        Object mKey2;
-        Class<? extends ca.qc.bergeron.marcantoine.crammeur.model.i.Data> mClass;
-
-        public Key(@NonNull Object pKey1, @NonNull Object pkey2, @NonNull Class<? extends ca.qc.bergeron.marcantoine.crammeur.model.i.Data> pClass) {
-            mKey1 = pKey1;
-            mKey2 = pkey2;
-            mClass = pClass;
-        }
-
-        @Override
-        public int hashCode() {
-            int hash = 1;
-            hash = hash * 2 + mKey1.hashCode();
-            hash = hash * 22 + mKey2.hashCode();
-            hash = hash * 222 + mClass.hashCode();
-            return hash;
-        }
-    }
 
 }

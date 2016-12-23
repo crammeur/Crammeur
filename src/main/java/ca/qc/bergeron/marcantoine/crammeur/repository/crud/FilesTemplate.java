@@ -6,6 +6,7 @@ package ca.qc.bergeron.marcantoine.crammeur.repository.crud;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.io.EOFException;
 import java.io.File;
@@ -159,6 +160,7 @@ public class FilesTemplate<T extends Data<K>, K> extends CRUD<T, K> {
                 FileOutputStream fos = new FileOutputStream(f);
                 ObjectOutputStream oos = new ObjectOutputStream(fos);
                 oos.writeObject(this.serialize(pEntity));
+                Log.i("File size", String.valueOf(fos.getChannel().size()));
                 oos.flush();
                 oos.close();
                 fos.close();
@@ -193,14 +195,9 @@ public class FilesTemplate<T extends Data<K>, K> extends CRUD<T, K> {
             if (mKeys != null && mKeys.containsKey(d.getClass())) {
                 for (Key key : mKeys.get(d.getClass())) {
                     if (d.getId().equals(key.mKey1)) {
-                        try {
-                            Data dd = (Data) mRepository.getByKey(key.mClass, key.mKey2);
-                            if (dd != null) {
-                                mRepository.delete(dd);
-                            }
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
-                            throw new DeleteException("Class Not Found");
+                        Data dd = (Data) mRepository.getByKey(key.mClass, key.mKey2);
+                        if (dd != null) {
+                            mRepository.delete(dd);
                         }
                         mKeys.remove(key);
                     }

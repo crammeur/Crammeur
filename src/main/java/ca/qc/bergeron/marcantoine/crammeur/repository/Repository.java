@@ -69,7 +69,7 @@ public final class Repository implements ca.qc.bergeron.marcantoine.crammeur.rep
         return false;
     }
 
-    protected Set<DataFramework> getAllDataFramework() {
+    public Set<DataFramework> getAllDataFramework() {
         Set<DataFramework> result = new HashSet<>();
         for (Field f : this.getClass().getDeclaredFields()) {
             if (DataFramework.class.isAssignableFrom(f.getType())) {
@@ -94,7 +94,7 @@ public final class Repository implements ca.qc.bergeron.marcantoine.crammeur.rep
      * @throws IllegalAccessException
      */
     @Nullable
-    protected final DataFramework<? extends ca.qc.bergeron.marcantoine.crammeur.model.i.Data, ?> getDataFramework(Class<? extends ca.qc.bergeron.marcantoine.crammeur.model.i.Data> pClass) {
+    public final DataFramework<? extends ca.qc.bergeron.marcantoine.crammeur.model.i.Data, ?> getDataFramework(Class<? extends ca.qc.bergeron.marcantoine.crammeur.model.i.Data> pClass) {
         DataFramework result = null;
         for (Field f : this.getClass().getDeclaredFields()) {
             if (DataFramework.class.isAssignableFrom(f.getType()) && ParameterizedType.class.isInstance(f.getGenericType()) &&
