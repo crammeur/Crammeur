@@ -27,11 +27,11 @@ public class EntityFramework<T extends DataEntity<K>, K> implements ca.qc.berger
         mDataFramework = pDataFramework;
     }
 
-    public void setGetAllCount(int pCount) {
+    public void setGetAll(int pCount) {
         count = pCount;
     }
 
-    private int count = 0;
+    private int count = 100;
     private int index = 0;
     @Override
     public final List<T> getAll() {
@@ -65,8 +65,9 @@ public class EntityFramework<T extends DataEntity<K>, K> implements ca.qc.berger
         return mDataFramework.getId(pEntity);
     }
 
+    @NonNull
     @Override
-    public K save(T pData) throws KeyException {
+    public K save(@NonNull T pData) throws KeyException {
         return mDataFramework.save(pData);
     }
 

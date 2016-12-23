@@ -28,7 +28,7 @@ public class ServiceTest {
     public void doBefore(){
         service = new Service(InstrumentationRegistry.getContext());
         Product p = new Product("Test",new Company("Test"),"",0.1,100);
-        for (int i=0; i<100; i++) {
+        for (int i=0; i<200; i++) {
             try {
                 service.Products.save(p);
                 p.setId(null);
