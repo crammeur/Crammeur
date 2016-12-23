@@ -188,7 +188,7 @@ public abstract class DataFramework<T extends Data<K>, K> implements ca.qc.berge
                     }
                 }
                 if (max == null && this.getAllKeys().size() == 0) {
-                    if (mKey.isAssignableFrom(Number.class) || mKey.getGenericSuperclass().equals(Number.class)) {
+                    if (mKey.getGenericSuperclass().equals(Number.class)) {
                         max = mKey.cast(1);
                     } else if (mKey.isAssignableFrom(String.class)) {
                         max = mKey.cast(Long.toHexString(1));
@@ -200,7 +200,7 @@ public abstract class DataFramework<T extends Data<K>, K> implements ca.qc.berge
                 throw naie;
             } catch (Exception e) {
                 e.printStackTrace();
-                throw new RuntimeException(e);
+                throw new NextAvailableIdException();
             }
         }
     }
