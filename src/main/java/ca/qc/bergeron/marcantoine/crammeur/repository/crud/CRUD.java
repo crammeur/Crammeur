@@ -7,8 +7,6 @@ package ca.qc.bergeron.marcantoine.crammeur.repository.crud;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import org.w3c.dom.ls.LSInput;
-
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
