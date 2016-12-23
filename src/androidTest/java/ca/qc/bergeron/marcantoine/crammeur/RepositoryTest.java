@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
-import java.util.List;
 
 import ca.qc.bergeron.marcantoine.crammeur.exceptions.repository.DeleteException;
 import ca.qc.bergeron.marcantoine.crammeur.exceptions.repository.KeyException;
@@ -56,7 +55,7 @@ public class RepositoryTest {
         Assert.assertTrue(company.getName().equals(((Company) repository.getByKey(Company.class, key)).getName()));
     }
 
-    @Test(timeout = 1000)
+    @Test(timeout = 2000)
     public void testSave3() {
         Company c = new Company("Test");
         for (int i=0; i<100; i++) {

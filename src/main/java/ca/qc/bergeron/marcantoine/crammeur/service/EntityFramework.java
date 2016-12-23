@@ -58,8 +58,8 @@ public class EntityFramework<T extends DataEntity<K>, K> implements ca.qc.berger
     }
 
     @Override
-    public Iterable<K> save(T... pDatas) throws KeyException {
-        return null;
+    public Iterable<K> save(T... pEntitys) throws KeyException {
+        return mDataFramework.save(pEntitys);
     }
 
     @Override
