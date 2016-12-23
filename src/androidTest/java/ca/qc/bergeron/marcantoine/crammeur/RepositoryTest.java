@@ -55,7 +55,7 @@ public class RepositoryTest {
         Assert.assertTrue(company.getName().equals(((Company) repository.getByKey(Company.class, key)).getName()));
     }
 
-    @Test(timeout = 2000)
+    @Test
     public void testRepositorySave3() {
         Company c = new Company("Test");
         for (int i=0; i<100; i++) {

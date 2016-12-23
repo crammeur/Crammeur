@@ -69,7 +69,7 @@ public final class Repository implements ca.qc.bergeron.marcantoine.crammeur.rep
         return false;
     }
 
-    public Set<DataFramework> getAllDataFramework() {
+    protected Set<DataFramework> getAllDataFramework() {
         Set<DataFramework> result = new HashSet<>();
         for (Field f : this.getClass().getDeclaredFields()) {
             if (DataFramework.class.isAssignableFrom(f.getType())) {
@@ -94,7 +94,7 @@ public final class Repository implements ca.qc.bergeron.marcantoine.crammeur.rep
      * @throws IllegalAccessException
      */
     @Nullable
-    public final DataFramework<? extends ca.qc.bergeron.marcantoine.crammeur.model.i.Data, ?> getDataFramework(Class<? extends ca.qc.bergeron.marcantoine.crammeur.model.i.Data> pClass) {
+    protected final DataFramework<? extends ca.qc.bergeron.marcantoine.crammeur.model.i.Data, ?> getDataFramework(Class<? extends ca.qc.bergeron.marcantoine.crammeur.model.i.Data> pClass) {
         DataFramework result = null;
         for (Field f : this.getClass().getDeclaredFields()) {
             if (DataFramework.class.isAssignableFrom(f.getType()) && ParameterizedType.class.isInstance(f.getGenericType()) &&
@@ -191,10 +191,8 @@ public final class Repository implements ca.qc.bergeron.marcantoine.crammeur.rep
      * @param pData
      * @throws KeyException
      * @throws DeleteException
-     * @throws ClassNotFoundException
-     * @throws IllegalAccessException
      */
-    public final void delete(ca.qc.bergeron.marcantoine.crammeur.model.i.Data pData) throws KeyException, DeleteException, ClassNotFoundException {
+    public final void delete(ca.qc.bergeron.marcantoine.crammeur.model.i.Data pData) throws KeyException, DeleteException {
         this.delete(pData.getClass(), pData.getId());
     }
 

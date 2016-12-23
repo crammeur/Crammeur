@@ -55,7 +55,7 @@ public class FilesTemplate<T extends Data<K>, K> extends CRUD<T, K> {
             mRelationKeys = new File(mBase, "Index");
             mFolderData.mkdirs();
             mIndexKeys = new File(mFolderData, "IndexKeys");
-            if (false && !mIndexKeys.createNewFile()) {
+            if (!mIndexKeys.createNewFile()) {
                 try{
                     FileInputStream fis = new FileInputStream(mIndexKeys);
                     ObjectInputStream ois = new ObjectInputStream(fis);
@@ -70,7 +70,7 @@ public class FilesTemplate<T extends Data<K>, K> extends CRUD<T, K> {
                 mKeysMap = new HashMap<>();
             }
             if (mKeys == null) {
-                if (false && !mRelationKeys.createNewFile()) {
+                if (!mRelationKeys.createNewFile()) {
                     try {
                         FileInputStream fis = new FileInputStream(mRelationKeys);
                         ObjectInputStream ois = new ObjectInputStream(fis);
@@ -182,7 +182,6 @@ public class FilesTemplate<T extends Data<K>, K> extends CRUD<T, K> {
     }
 
     /**
-     *
      * @param pId
      * @throws KeyException
      * @throws DeleteException
@@ -203,9 +202,7 @@ public class FilesTemplate<T extends Data<K>, K> extends CRUD<T, K> {
                             e.printStackTrace();
                             throw new DeleteException("Class Not Found");
                         }
-                        Set<Key> keys = mKeys.get(d.getClass());
-                        keys.remove(key);
-                        mKeys.put(d.getClass(), keys);
+                        mKeys.remove(key);
                     }
                 }
             }

@@ -7,6 +7,8 @@ package ca.qc.bergeron.marcantoine.crammeur.service;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import ca.qc.bergeron.marcantoine.crammeur.exceptions.repository.DeleteException;
@@ -25,10 +27,15 @@ public class EntityFramework<T extends DataEntity<K>, K> implements ca.qc.berger
         mDataFramework = pDataFramework;
     }
 
-    private long index = 0;
+    private int index = 0;
     @Override
-    public final Iterable<T> getAll() {
-        return mDataFramework.getAll();
+    public final List<T> getAll() {
+        List<T> result = new ArrayList<>();
+        Object[] l = this.getAllKeys().toArray();
+        for (int i = index; i<index+100;i++) {
+            result.add(mDataFramework.getByKey((K) l[i]));
+        }
+        return result;
     }
 
     @Override
