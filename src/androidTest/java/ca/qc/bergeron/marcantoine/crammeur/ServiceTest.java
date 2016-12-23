@@ -3,10 +3,17 @@ package ca.qc.bergeron.marcantoine.crammeur;
 import android.support.test.InstrumentationRegistry;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.util.List;
+
+import ca.qc.bergeron.marcantoine.crammeur.exceptions.repository.KeyException;
+import ca.qc.bergeron.marcantoine.crammeur.model.entity.Company;
+import ca.qc.bergeron.marcantoine.crammeur.model.entity.Product;
 import ca.qc.bergeron.marcantoine.crammeur.service.Service;
 
 /**
@@ -20,6 +27,23 @@ public class ServiceTest {
     @Before
     public void doBefore(){
         service = new Service(InstrumentationRegistry.getContext());
+        Product p = new Product("Test",new Company("Test"),"",0.1,100);
+        for (int i=0; i<100; i++) {
+            try {
+                service.Products.save(p);
+                p.setId(null);
+                p.Company.setId(null);
+            } catch (KeyException e) {
+                e.printStackTrace();
+                Assert.fail();
+            }
+        }
+    }
+
+    @Test(timeout = 1000)
+    public void testGetAll() {
+        List pp = service.Products.getAll();
+        Assert.assertTrue(pp.size() == 100);
     }
 
     @After

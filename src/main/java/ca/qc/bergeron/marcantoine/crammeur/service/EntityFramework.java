@@ -27,14 +27,20 @@ public class EntityFramework<T extends DataEntity<K>, K> implements ca.qc.berger
         mDataFramework = pDataFramework;
     }
 
+    public void setGetAllCount(int pCount) {
+        count = pCount;
+    }
+
+    private int count = 0;
     private int index = 0;
     @Override
     public final List<T> getAll() {
         List<T> result = new ArrayList<>();
         Object[] l = this.getAllKeys().toArray();
-        for (int i = index; i<index+100;i++) {
+        for (int i = index; (i < index + count && i < l.length ) || (count == 0 && i < l.length);i++) {
             result.add(mDataFramework.getByKey((K) l[i]));
         }
+        index += count;
         return result;
     }
 

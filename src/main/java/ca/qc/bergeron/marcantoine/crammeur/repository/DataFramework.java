@@ -76,7 +76,6 @@ public abstract class DataFramework<T extends Data<K>, K> implements ca.qc.berge
         }
     }
 
-    private long index = 0;
     /**
      * @return
      */
