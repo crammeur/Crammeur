@@ -25,6 +25,7 @@ public class EntityFramework<T extends DataEntity<K>, K> implements ca.qc.berger
         mDataFramework = pDataFramework;
     }
 
+    private long index = 0;
     @Override
     public final Iterable<T> getAll() {
         return mDataFramework.getAll();
@@ -57,6 +58,11 @@ public class EntityFramework<T extends DataEntity<K>, K> implements ca.qc.berger
     }
 
     @Override
+    public Iterable<K> save(T... pDatas) throws KeyException {
+        return null;
+    }
+
+    @Override
     public final boolean contains(K pKey) {
         return mDataFramework.contains(pKey);
     }
@@ -78,5 +84,10 @@ public class EntityFramework<T extends DataEntity<K>, K> implements ca.qc.berger
             e.printStackTrace();
             throw e;
         }
+    }
+
+    @Override
+    public void deleteAll() {
+        mDataFramework.deleteAll();
     }
 }

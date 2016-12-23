@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Set;
 
 import ca.qc.bergeron.marcantoine.crammeur.annotations.repository.Entity;
+import ca.qc.bergeron.marcantoine.crammeur.exceptions.repository.DeleteException;
+import ca.qc.bergeron.marcantoine.crammeur.exceptions.repository.KeyException;
 import ca.qc.bergeron.marcantoine.crammeur.exceptions.repository.NextAvailableIdException;
 import ca.qc.bergeron.marcantoine.crammeur.model.i.Data;
 /**
@@ -53,7 +55,7 @@ public abstract class DataFramework<T extends Data<K>, K> implements ca.qc.berge
                     data.setId(null);
                     if (data.toString().equals(pData.toString())) {
                         result = true;
-                        return result;
+                        break;
                     }
                 }
             }
@@ -73,20 +75,17 @@ public abstract class DataFramework<T extends Data<K>, K> implements ca.qc.berge
         }
     }
 
-    //generic
-
+    private long index = 0;
     /**
      * @return
      */
     @Override
-    public Iterable<T> getAll() {
+    public List<T> getAll() {
         return this.getByKeys(this.getAllKeys());
     }
 
     @Override
     public abstract java.util.SortedSet<K> getAllKeys();
-
-    //generic
 
     /**
      * @param pKeys
@@ -116,6 +115,21 @@ public abstract class DataFramework<T extends Data<K>, K> implements ca.qc.berge
                 }
             }
             return null;
+        }
+    }
+
+    @Override
+    public void deleteAll() {
+        for (T entity : this.getAll()) {
+            try {
+                this.delete(entity);
+            } catch (KeyException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            } catch (DeleteException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
         }
     }
 

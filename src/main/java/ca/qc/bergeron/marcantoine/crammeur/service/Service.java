@@ -4,6 +4,8 @@
 
 package ca.qc.bergeron.marcantoine.crammeur.service;
 
+import android.content.Context;
+
 import java.io.File;
 
 import ca.qc.bergeron.marcantoine.crammeur.model.entity.Company;
@@ -23,8 +25,8 @@ public class Service {
     public final EntityFramework<Invoice, Integer> Invoices;
     public final EntityFramework<Product, Integer> Products;
 
-    public Service(File pFile) {
-        repo = new Repository(pFile);
+    public Service(Context pContext) {
+        repo = new Repository(pContext);
         Companys = new CompanyService((DataFramework<Company, Integer>) repo.getDataFramework(Company.class));
         Invoices = new EntityFramework<>(repo.getDataFramework(Invoice.class));
         Products = new EntityFramework<>(repo.getDataFramework(Product.class));

@@ -7,6 +7,7 @@ package ca.qc.bergeron.marcantoine.crammeur.repository.i;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.security.Key;
 import java.util.Set;
 
 import ca.qc.bergeron.marcantoine.crammeur.exceptions.repository.DeleteException;
@@ -25,6 +26,8 @@ public interface DataFramework<T extends Data<K>, K> {
      */
     @NonNull
     K save(T pData) throws KeyException;
+
+    Iterable<K> save(T... pDatas) throws KeyException;
 
     /**
      * @return all data
@@ -82,4 +85,6 @@ public interface DataFramework<T extends Data<K>, K> {
      * @throws DeleteException
      */
     void delete(@NonNull T pData) throws KeyException, DeleteException;
+
+    void deleteAll();
 }

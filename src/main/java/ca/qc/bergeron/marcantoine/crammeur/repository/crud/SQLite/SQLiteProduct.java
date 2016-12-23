@@ -126,4 +126,9 @@ public class SQLiteProduct extends SQLiteTemplate<Product, Integer> {
     public void delete(Product pData) throws KeyException, DeleteException {
 
     }
+
+    @Override
+    public void deleteAll() {
+
+    }
 }
