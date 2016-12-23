@@ -25,9 +25,10 @@ public interface DataFramework<T extends Data<K>, K> {
      * @return key
      */
     @NonNull
-    K save(T pData) throws KeyException;
+    K save(@NonNull T pData) throws KeyException;
 
-    Iterable<K> save(T... pDatas) throws KeyException;
+    @NonNull
+    Iterable<K> save(@NonNull T... pDatas) throws KeyException;
 
     /**
      * @return all data

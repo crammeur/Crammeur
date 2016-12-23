@@ -437,9 +437,9 @@ abstract class CRUD<T extends ca.qc.bergeron.marcantoine.crammeur.model.i.Data<K
     public abstract void deleteTable();
 
     static class Key implements Serializable {
-        public Object mKey1;
-        public Object mKey2;
-        public Class<? extends ca.qc.bergeron.marcantoine.crammeur.model.i.Data> mClass;
+        Object mKey1;
+        Object mKey2;
+        Class<? extends ca.qc.bergeron.marcantoine.crammeur.model.i.Data> mClass;
 
         public Key(@NonNull Object pKey1, @NonNull Object pkey2, @NonNull Class<? extends ca.qc.bergeron.marcantoine.crammeur.model.i.Data> pClass) {
             mKey1 = pKey1;

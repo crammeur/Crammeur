@@ -56,12 +56,27 @@ public class RepositoryTest {
     }
 
     @Test(timeout = 2000)
-    public void testSave3() {
+    public void testRepositorySave3() {
         Company c = new Company("Test");
         for (int i=0; i<100; i++) {
             try {
                 repository.save(c);
                 c.setId(null);
+            } catch (KeyException e) {
+                e.printStackTrace();
+                Assert.fail();
+            }
+        }
+    }
+
+    @Test
+    public void testRepositorySave4() {
+        Product p = new Product("Test",new Company("Test"),"",0.1,100);
+        for (int i=0; i<100; i++) {
+            try {
+                repository.save(p);
+                p.setId(null);
+                p.Company.setId(null);
             } catch (KeyException e) {
                 e.printStackTrace();
                 Assert.fail();

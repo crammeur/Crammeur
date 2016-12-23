@@ -4,6 +4,9 @@
 
 package ca.qc.bergeron.marcantoine.crammeur.repository.crud;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -112,8 +115,9 @@ public class FilesTemplate<T extends Data<K>, K> extends CRUD<T, K> {
      * @param pId
      * @return
      */
+    @Nullable
     @Override
-    public final T findById(K pId) {
+    public final T findById(@NonNull K pId) {
         synchronized (mClazz) {
             T o = null;
             File f = new File(mFolderData, pId.toString());
@@ -124,7 +128,6 @@ public class FilesTemplate<T extends Data<K>, K> extends CRUD<T, K> {
                     o = mClazz.cast(this.deserialize(mClazz, (Map<String, Map<String, Object>>) ois.readObject()));
                     ois.close();
                     fis.close();
-                    return o;
                 } catch (IOException e) {
                     e.printStackTrace();
                     throw new RuntimeException(e);
@@ -220,8 +223,8 @@ public class FilesTemplate<T extends Data<K>, K> extends CRUD<T, K> {
     public final void deleteTable() {
         clearTable();
         for (File f : mFolderData.listFiles()){
-            f.delete();
             System.gc();
+            f.delete();
         }
         if (!mFolderData.delete()) throw new RuntimeException("Delete Table");
     }
