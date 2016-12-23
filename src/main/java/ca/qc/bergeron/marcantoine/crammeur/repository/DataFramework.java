@@ -53,7 +53,7 @@ public abstract class DataFramework<T extends Data<K>, K> implements ca.qc.berge
                     data.setId(null);
                     if (data.toString().equals(pData.toString())) {
                         result = true;
-                        return result;
+                        break;
                     }
                 }
             }
