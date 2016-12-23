@@ -33,6 +33,7 @@ public class EntityFramework<T extends DataEntity<K>, K> implements ca.qc.berger
 
     private int count = 100;
     private int index = 0;
+    @NonNull
     @Override
     public final List<T> getAll() {
         List<T> result = new ArrayList<>();
@@ -44,6 +45,7 @@ public class EntityFramework<T extends DataEntity<K>, K> implements ca.qc.berger
         return result;
     }
 
+    @NonNull
     @Override
     public Set<K> getAllKeys() {
         return mDataFramework.getAllKeys();
@@ -54,8 +56,9 @@ public class EntityFramework<T extends DataEntity<K>, K> implements ca.qc.berger
         return mDataFramework.getByKeys(pKeys);
     }
 
+    @NonNull
     @Override
-    public T getByKey(K pKey) {
+    public T getByKey(@NonNull K pKey) {
         return mDataFramework.getByKey(pKey);
     }
 
