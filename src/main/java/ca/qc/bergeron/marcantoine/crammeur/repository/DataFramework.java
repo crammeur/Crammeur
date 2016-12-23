@@ -4,6 +4,7 @@
 
 package ca.qc.bergeron.marcantoine.crammeur.repository;
 
+import android.content.Context;
 import android.support.annotation.BoolRes;
 import android.support.annotation.NonNull;
 
