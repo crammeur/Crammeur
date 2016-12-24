@@ -40,10 +40,24 @@ public class ServiceTest {
         }
     }
 
-    @Test
+    @Test(timeout = 1000)
     public void testGetAll() {
         List pp = (List) service.Products.getAll();
         Assert.assertTrue(pp.size() == 100);
+    }
+
+    @Test
+    public void testGetAll2() {
+        service.Products.setGetAll(50);
+        List pp = (List) service.Products.getAll();
+        Assert.assertTrue(pp.size() == 50);
+    }
+
+    @Test
+    public void testGetAll3() {
+        service.Products.setGetAll(250);
+        List pp = (List) service.Products.getAll();
+        Assert.assertTrue(pp.size() == 200);
     }
 
     @After
