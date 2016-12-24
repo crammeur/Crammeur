@@ -4,6 +4,8 @@
 
 package ca.qc.bergeron.marcantoine.crammeur.service.crud;
 
+import android.support.annotation.NonNull;
+
 import ca.qc.bergeron.marcantoine.crammeur.exceptions.repository.DeleteException;
 import ca.qc.bergeron.marcantoine.crammeur.exceptions.repository.KeyException;
 import ca.qc.bergeron.marcantoine.crammeur.model.entity.Company;
@@ -18,8 +20,9 @@ public class CompanyService extends ca.qc.bergeron.marcantoine.crammeur.service.
         super(pDataFramework);
     }
 
+    @NonNull
     @Override
-    public Integer save(Company pData) throws KeyException {
+    public Integer save(@NonNull Company pData) throws KeyException {
         if (pData.getId() == null && this.contains(pData)) {
             pData.setId(this.getId(pData));
             return pData.getId();
