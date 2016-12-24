@@ -40,7 +40,7 @@ public class EntityFramework<T extends DataEntity<K>, K> implements ca.qc.berger
         Set<K> keys = new HashSet<>();
         Object[] l = this.getAllKeys().toArray();
         int c = 0;
-        for (int i = l.length-1; (c < count && i < l.length ) || (count == 0 && i < l.length);i--) {
+        for (int i = l.length-1; ((c < count && i < l.length ) || (count == 0 && i < l.length)) && i >= 0 ;i--) {
             keys.add((K) l[i]);
             c++;
         }

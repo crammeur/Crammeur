@@ -107,9 +107,7 @@ public class FilesTemplate<T extends Data<K>, K> extends CRUD<T, K> {
     public final SortedSet<K> getAllKeys() {
         synchronized (mClazz) {
             SortedSet<K> result = new TreeSet<>();
-            for (K key : mKeysMap.values()) {
-                result.add(key);
-            }
+            result.addAll(mKeysMap.values());
             return result;
         }
     }
