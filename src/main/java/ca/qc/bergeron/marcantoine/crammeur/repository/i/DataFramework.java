@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 
 import java.security.Key;
 import java.util.Set;
+import java.util.SortedSet;
 
 import ca.qc.bergeron.marcantoine.crammeur.exceptions.repository.DeleteException;
 import ca.qc.bergeron.marcantoine.crammeur.exceptions.repository.KeyException;
@@ -40,7 +41,7 @@ public interface DataFramework<T extends Data<K>, K> {
      * @return all keys
      */
     @NonNull
-    Set<K> getAllKeys();
+    SortedSet<K> getAllKeys();
 
     /**
      * Get data by key

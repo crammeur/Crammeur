@@ -163,6 +163,7 @@ public class FilesTemplate<T extends Data<K>, K> extends CRUD<T, K> {
                 ObjectOutputStream oos = new ObjectOutputStream(fos);
                 oos.writeObject(this.serialize(pEntity));
                 Log.i("File size", String.valueOf(fos.getChannel().size()));
+                Log.i("File name", f.getName());
                 oos.flush();
                 oos.close();
                 fos.close();

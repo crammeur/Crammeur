@@ -40,9 +40,9 @@ public class ServiceTest {
         }
     }
 
-    @Test(timeout = 1000)
+    @Test
     public void testGetAll() {
-        List pp = service.Products.getAll();
+        List pp = (List) service.Products.getAll();
         Assert.assertTrue(pp.size() == 100);
     }
 

@@ -20,7 +20,7 @@ import ca.qc.bergeron.marcantoine.crammeur.service.crud.CompanyService;
 /**
  * Created by Marc-Antoine Bergeron on 2016-10-02.
  */
-public class Service {
+public final class Service {
 
     private final Repository repo;
 

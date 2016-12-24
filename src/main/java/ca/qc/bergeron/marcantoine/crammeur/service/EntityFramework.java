@@ -8,8 +8,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
 
 import ca.qc.bergeron.marcantoine.crammeur.exceptions.repository.DeleteException;
 import ca.qc.bergeron.marcantoine.crammeur.exceptions.repository.KeyException;
@@ -32,22 +34,22 @@ public class EntityFramework<T extends DataEntity<K>, K> implements ca.qc.berger
     }
 
     private int count = 100;
-    private int index = 0;
     @NonNull
     @Override
-    public final List<T> getAll() {
-        List<T> result = new ArrayList<>();
+    public final Iterable<T> getAll() {
+        Set<K> keys = new HashSet<>();
         Object[] l = this.getAllKeys().toArray();
-        for (int i = index; (i < index + count && i < l.length ) || (count == 0 && i < l.length);i++) {
-            result.add(mDataFramework.getByKey((K) l[i]));
+        int c = 0;
+        for (int i = l.length-1; (c < count && i < l.length ) || (count == 0 && i < l.length);i--) {
+            keys.add((K) l[i]);
+            c++;
         }
-        index += count;
-        return result;
+        return this.getByKeys(keys);
     }
 
     @NonNull
     @Override
-    public Set<K> getAllKeys() {
+    public SortedSet<K> getAllKeys() {
         return mDataFramework.getAllKeys();
     }
 
