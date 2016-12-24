@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.Set;
+import java.util.SortedSet;
 
 import ca.qc.bergeron.marcantoine.crammeur.exceptions.repository.DeleteException;
 import ca.qc.bergeron.marcantoine.crammeur.exceptions.repository.KeyException;
@@ -97,7 +98,7 @@ public class SQLiteProduct extends SQLiteTemplate<Product, Integer> {
     }
 
     @Override
-    public Set<Integer> getAllKeys() {
+    public SortedSet<Integer> getAllKeys() {
         return null;
     }
 
