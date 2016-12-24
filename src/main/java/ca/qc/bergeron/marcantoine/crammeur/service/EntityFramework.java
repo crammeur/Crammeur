@@ -94,15 +94,7 @@ public class EntityFramework<T extends DataEntity<K>, K> implements ca.qc.berger
 
     @Override
     public void delete(T pData) throws KeyException, DeleteException {
-        try {
-            mDataFramework.delete(pData);
-        } catch (KeyException e) {
-            e.printStackTrace();
-            throw e;
-        } catch (DeleteException e) {
-            e.printStackTrace();
-            throw e;
-        }
+        mDataFramework.delete(pData);
     }
 
     @Override
