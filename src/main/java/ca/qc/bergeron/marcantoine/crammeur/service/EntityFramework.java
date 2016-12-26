@@ -77,23 +77,23 @@ public class EntityFramework<T extends DataEntity<K>, K> implements ca.qc.berger
     }
 
     @Override
-    public Iterable<K> save(T... pEntitys) throws KeyException {
+    public Iterable<K> save(@NonNull T... pEntitys) throws KeyException {
         return mDataFramework.save(pEntitys);
     }
 
     @Override
-    public final boolean contains(K pKey) {
+    public final boolean contains(@NonNull K pKey) {
         return mDataFramework.contains(pKey);
     }
 
     @Override
-    public boolean contains(T pData) {
+    public boolean contains(@NonNull T pData) {
         return mDataFramework.contains(pData);
     }
 
 
     @Override
-    public void delete(T pData) throws KeyException, DeleteException {
+    public void delete(@NonNull T pData) throws KeyException, DeleteException {
         mDataFramework.delete(pData);
     }
 
