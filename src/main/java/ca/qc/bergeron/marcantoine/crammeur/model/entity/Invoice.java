@@ -17,16 +17,16 @@ import ca.qc.bergeron.marcantoine.crammeur.model.i.Data;
  */
 public final class Invoice extends DataEntity<Integer> implements Serializable, Data<Integer> {
 
-    private Date mDate;
-    private volatile Company mCompany;
-    private String mCode;
-    private String mImagePath;
-    private double mTotal;
-    private double mTPS;
-    private double mTVQ;
-    private double mTVA;
-    private PaidType mPaidType = null;
-    private List<Sale> mSales = new ArrayList<>();
+    public Date Date;
+    public volatile Company Company;
+    public String Code;
+    public String ImagePath;
+    public double Total;
+    public double TPS;
+    public double TVQ;
+    public double TVA;
+    public PaidType PaidType = null;
+    public List<Sale> Sales = new ArrayList<>();
 
     private Invoice() {
         this(null, null, null, null, 0, 0, 0);
@@ -42,13 +42,13 @@ public final class Invoice extends DataEntity<Integer> implements Serializable, 
 
     public Invoice(Integer pId, Date pDate, Company pCompany, String pCode, String pImagePath, double pTotal, double pTPS, double pTVQ, double pTVA) {
         super(pId);
-        mDate = pDate;
-        mCompany = pCompany;
-        mCode = pCode;
-        mImagePath = pImagePath;
-        mTotal = pTotal;
-        mTPS = pTPS;
-        mTVQ = pTVQ;
-        mTVA = pTVA;
+        Date = pDate;
+        Company = pCompany;
+        Code = pCode;
+        ImagePath = pImagePath;
+        Total = pTotal;
+        TPS = pTPS;
+        TVQ = pTVQ;
+        TVA = pTVA;
     }
 }

@@ -11,23 +11,23 @@ import ca.qc.bergeron.marcantoine.crammeur.model.i.Data;
  */
 public final class Company extends DataEntity<Integer> implements Data<Integer> {
 
-    private String mName;
+    public String Name;
 
     public Company(String pName) {
         super(null);
-        mName = pName;
+        Name = pName;
     }
 
     public Company(Integer pId, String pName) {
         super(pId);
-        mName = pName;
+        Name = pName;
     }
 
     public String getName() {
-        return mName;
+        return Name;
     }
 
     public void setName(String pName) {
-        mName = pName;
+        Name = pName;
     }
 }

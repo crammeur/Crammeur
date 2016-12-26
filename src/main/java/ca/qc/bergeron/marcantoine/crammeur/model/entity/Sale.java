@@ -11,16 +11,16 @@ import ca.qc.bergeron.marcantoine.crammeur.enums.models.data.SaleType;
  */
 public final class Sale extends DataEntity<Long> implements ca.qc.bergeron.marcantoine.crammeur.model.i.Data<Long> {
 
-    private SaleType mSaleType;
+    public SaleType SaleType;
 
     public Sale(SaleType pSaleType) {
         super();
-        mSaleType = pSaleType;
+        SaleType = pSaleType;
     }
 
     public Sale(Long pId, SaleType pSaleType) {
         super(pId);
-        mSaleType = pSaleType;
+        SaleType = pSaleType;
     }
 
 }
