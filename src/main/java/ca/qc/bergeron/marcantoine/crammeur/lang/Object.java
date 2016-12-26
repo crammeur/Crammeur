@@ -88,7 +88,7 @@ public abstract class Object implements ca.qc.bergeron.marcantoine.crammeur.lang
      * @return
      */
     private static LinkedHashSet<Field> getAllFields(Class<?> pType) {
-        LinkedHashSet<Field> fs = new LinkedHashSet<>();
+        LinkedHashSet<Field> fs = new LinkedHashSet<Field>();
         for (Field f : Arrays.asList(pType.getDeclaredFields())) {
             fs.add(f);
         }
