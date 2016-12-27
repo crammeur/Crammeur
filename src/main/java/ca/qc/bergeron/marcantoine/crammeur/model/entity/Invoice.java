@@ -15,7 +15,7 @@ import ca.qc.bergeron.marcantoine.crammeur.model.i.Data;
 /**
  * Created by Marc-Antoine on 2016-03-28.
  */
-public final class Invoice extends DataEntity<Integer> implements Serializable, Data<Integer> {
+public final class Invoice extends DataEntity<Integer> {
 
     public Date Date;
     public volatile Company Company;

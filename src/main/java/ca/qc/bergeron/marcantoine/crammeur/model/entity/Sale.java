@@ -9,7 +9,7 @@ import ca.qc.bergeron.marcantoine.crammeur.enums.models.data.SaleType;
 /**
  * Created by Marc-Antoine on 2016-05-15.
  */
-public final class Sale extends DataEntity<Long> implements ca.qc.bergeron.marcantoine.crammeur.model.i.Data<Long> {
+public final class Sale extends DataEntity<Long> {
 
     public SaleType SaleType;
 
