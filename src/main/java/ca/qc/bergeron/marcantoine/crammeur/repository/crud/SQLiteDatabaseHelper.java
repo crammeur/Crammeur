@@ -4,23 +4,19 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import ca.qc.bergeron.marcantoine.crammeur.model.i.Data;
-import ca.qc.bergeron.marcantoine.crammeur.repository.i.DataFramework;
+import ca.qc.bergeron.marcantoine.crammeur.repository.crud.SQLite.i.SQLiteProduct;
 
 /**
  * Created by Marc-Antoine on 2016-10-30.
  */
 
-public abstract class SQLiteTemplate<T extends Data<K>, K> extends SQLiteOpenHelper implements DataFramework<T, K> {
+public final class SQLiteDatabaseHelper extends SQLiteOpenHelper implements SQLiteProduct{
 
     protected final static String DATABASE_NAME = "database";
     protected final static int DATABASE_VERSION = 1;
 
-    protected final SQLiteDatabase mDB;
-
-    public SQLiteTemplate(Context context) {
+    public SQLiteDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        mDB = this.getWritableDatabase();
     }
 
     @Override
@@ -30,5 +26,15 @@ public abstract class SQLiteTemplate<T extends Data<K>, K> extends SQLiteOpenHel
             // Enable foreign key constraints
             db.execSQL("PRAGMA foreign_keys=ON;");
         }
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL(CREATE_TABLE_Produit);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
     }
 }

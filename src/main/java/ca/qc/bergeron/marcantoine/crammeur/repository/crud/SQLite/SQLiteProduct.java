@@ -4,50 +4,26 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import java.util.Set;
-import java.util.SortedSet;
-
-import ca.qc.bergeron.marcantoine.crammeur.exceptions.repository.DeleteException;
 import ca.qc.bergeron.marcantoine.crammeur.exceptions.repository.KeyException;
 import ca.qc.bergeron.marcantoine.crammeur.model.entity.Product;
-import ca.qc.bergeron.marcantoine.crammeur.repository.crud.SQLiteTemplate;
+import ca.qc.bergeron.marcantoine.crammeur.repository.crud.SQLiteDatabaseHelper;
 
 /**
  * Created by Marc-Antoine on 2016-10-30.
  */
 
-public class SQLiteProduct extends SQLiteTemplate<Product, Integer> {
+public class SQLiteProduct implements ca.qc.bergeron.marcantoine.crammeur.repository.crud.SQLite.i.SQLiteProduct {
 
-    public final static String T_Produit = "Produit";        // nom de la table
-    public final static String F_id = "F_id";                // nom de chacun des champs (F pour field)
-    public final static String F_nom = "F1_1";
-    public final static String F_description = "F1_2";
-    public final static String F_price = "F1_3";
+    private SQLiteDatabaseHelper dbHelper;
 
-    private static final String CREATE_TABLE_Produit = "CREATE TABLE " + T_Produit + " (" +
-            F_id + " INTEGER PRIMARY KEY AUTOINCREMENT ," +
-            F_nom + " TEXT ," +
-            F_description + " TEXT ," +
-            F_price + " REAL ," +
-            "GEN_LASTMOD                INTEGER " + // Used for debugging purpose
-            ")";
+    private SQLiteDatabase mDB;
 
     public SQLiteProduct(Context context) {
-        super(context);
+        dbHelper = new SQLiteDatabaseHelper(context);
+        mDB = dbHelper.getWritableDatabase();
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_TABLE_Produit);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-    }
 
     private Product convertCursor(Cursor pCursor) {
         Product o = new Product(null, null, null, 0.0, 0);
@@ -71,7 +47,6 @@ public class SQLiteProduct extends SQLiteTemplate<Product, Integer> {
         return mCursor; // iterate to get each value.
     }
 
-    @Override
     public Integer save(Product pData) throws KeyException {
         ContentValues values = new ContentValues();
         values.put(F_nom, pData.Name);
@@ -79,7 +54,7 @@ public class SQLiteProduct extends SQLiteTemplate<Product, Integer> {
         values.put(F_price, pData.Price);
         Integer id = pData.getId();
         if (id == null) {
-            id = Integer.valueOf((int) mDB.insert(T_Produit, null, values));
+            id = (int) mDB.insert(T_Produit, null, values);
             pData.setId(id);
         } else {
             mDB.update(T_Produit, values, F_id + " = ?", new String[]{String.valueOf(id)});
@@ -87,54 +62,11 @@ public class SQLiteProduct extends SQLiteTemplate<Product, Integer> {
         return id;
     }
 
-    @Override
-    public Iterable<Integer> save(Product... pDatas) throws KeyException {
-        return null;
-    }
-
-    @Override
-    public Iterable<Product> getAll() {
-        return null;
-    }
-
-    @Override
-    public SortedSet<Integer> getAllKeys() {
-        return null;
-    }
-
-    @Override
-    public Product getByKey(Integer pKey) {
-        return null;
-    }
-
-    @Nullable
-    @Override
-    public Integer getId(@NonNull Product pEntity) {
-        return null;
-    }
-
-    @Override
-    public Iterable<Product> getByKeys(Set<Integer> pKeys) {
-        return null;
-    }
-
-    @Override
-    public boolean contains(Integer pKey) {
+    public boolean contain(Integer pId) {
+        Cursor c = this.selectRecords();
+        do {
+            if(pId.equals(this.convertCursor(c).getId())) return true;
+        } while (c.moveToNext());
         return false;
-    }
-
-    @Override
-    public boolean contains(Product pData) {
-        return false;
-    }
-
-    @Override
-    public void delete(Product pData) throws KeyException, DeleteException {
-
-    }
-
-    @Override
-    public void deleteAll() {
-
     }
 }
