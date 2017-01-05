@@ -6,6 +6,7 @@ package ca.qc.bergeron.marcantoine.crammeur.repository;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v4.os.ParcelableCompat;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -23,6 +24,8 @@ import ca.qc.bergeron.marcantoine.crammeur.model.entity.Product;
 import ca.qc.bergeron.marcantoine.crammeur.model.entity.Sale;
 import ca.qc.bergeron.marcantoine.crammeur.model.i.Data;
 import ca.qc.bergeron.marcantoine.crammeur.repository.crud.FilesTemplate;
+import ca.qc.bergeron.marcantoine.crammeur.repository.crud.SQLite.SQLiteCompany;
+import ca.qc.bergeron.marcantoine.crammeur.repository.crud.SQLite.SQLiteProduct;
 import ca.qc.bergeron.marcantoine.crammeur.repository.i.DataFramework;
 
 /**
@@ -45,10 +48,10 @@ public final class Repository implements ca.qc.bergeron.marcantoine.crammeur.rep
      */
     public Repository(Context pContext, File pFile) {
         try {
-            Companys = new FilesTemplate<>(Company.class, Integer.class, this, pFile);
+            Companys = new SQLiteCompany(this, pContext);
             Invoices = new FilesTemplate<>(Invoice.class, Integer.class, this, pFile);
             Sales = new FilesTemplate<>(Sale.class, Long.class, this, pFile);
-            Products = new FilesTemplate<>(Product.class, Integer.class, this, pFile);
+            Products = new SQLiteProduct(this,pContext);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -69,8 +72,8 @@ public final class Repository implements ca.qc.bergeron.marcantoine.crammeur.rep
         return false;
     }
 
-    public Set<DataFramework> getAllDataFramework() {
-        Set<DataFramework> result = new HashSet<>();
+    public List<DataFramework> getAllDataFramework() {
+        List<DataFramework> result = new ArrayList<>();
         for (Field f : this.getClass().getDeclaredFields()) {
             if (DataFramework.class.isAssignableFrom(f.getType())) {
                 final boolean b = f.isAccessible();
@@ -218,8 +221,9 @@ public final class Repository implements ca.qc.bergeron.marcantoine.crammeur.rep
     }
 
     public void clear() {
-        for (DataFramework df : this.getAllDataFramework()) {
-            df.deleteAll();
+        List<DataFramework> l = this.getAllDataFramework();
+        for (int i=l.size()-1;i >= 0; i--) {
+            l.get(i).deleteAll();
         }
     }
 }

@@ -6,14 +6,16 @@ package ca.qc.bergeron.marcantoine.crammeur.model;
 
 import com.google.gson.Gson;
 
-import ca.qc.bergeron.marcantoine.crammeur.annotations.models.data.Id;
+import ca.qc.bergeron.marcantoine.crammeur.annotations.repository.Entity;
+
 
 /**
  * Created by Marc-Antoine Bergeron on 2016-06-18.
  */
+@Entity()
 public abstract class Data<K> extends ca.qc.bergeron.marcantoine.crammeur.lang.Object implements ca.qc.bergeron.marcantoine.crammeur.model.i.Data<K> {
 
-    @Id(name = "Id")
+    @Entity.Id(name = "Id")
     private K mId;
 
     public Data() {

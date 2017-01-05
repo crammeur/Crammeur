@@ -8,8 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.google.gson.JsonSerializer;
-
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,7 +38,7 @@ import ca.qc.bergeron.marcantoine.crammeur.repository.Repository;
 /**
  * Created by Marc-Antoine on 2016-03-29.
  */
-public class FilesTemplate<T extends Data<K>, K> extends CRUD<T, K> {
+public class FilesTemplate<T extends Data<K>, K> extends CRUDFile<T, K> {
 
     private final File mBase;
     private final File mFolderData;
