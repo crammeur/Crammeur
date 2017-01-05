@@ -4,13 +4,14 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import ca.qc.bergeron.marcantoine.crammeur.repository.crud.SQLite.i.SQLiteCompany;
 import ca.qc.bergeron.marcantoine.crammeur.repository.crud.SQLite.i.SQLiteProduct;
 
 /**
  * Created by Marc-Antoine on 2016-10-30.
  */
 
-public final class SQLiteDatabaseHelper extends SQLiteOpenHelper implements SQLiteProduct{
+public final class SQLiteDatabaseHelper extends SQLiteOpenHelper implements SQLiteProduct,SQLiteCompany{
 
     protected final static String DATABASE_NAME = "database";
     protected final static int DATABASE_VERSION = 1;
@@ -30,11 +31,14 @@ public final class SQLiteDatabaseHelper extends SQLiteOpenHelper implements SQLi
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_TABLE_Produit);
+        db.execSQL(CREATE_TABLE_Company);
+        db.execSQL(CREATE_TABLE_Product);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS " + T_Produit);
+        db.execSQL("DROP TABLE IF EXISTS " + T_Company);
+        onCreate(db);
     }
 }

@@ -38,16 +38,15 @@ public class RepositoryTest {
 
     @Test
     public void testRepositorySave() throws KeyException, DeleteException, ClassNotFoundException {
-        Integer key = (Integer) repository.save(new Company(1, "Test"));
+        Integer key = (Integer) repository.save(new Company("Test"));
         Company company = (Company) repository.getByKey(Company.class, key);
-        Assert.assertTrue(key != company.getId());
         Assert.assertTrue(key.equals(company.getId()));
     }
 
     @Test
     public void testRepositorySave2() throws KeyException, ClassNotFoundException, DeleteException {
         Integer key = (Integer) repository.save(new Company(2, "Test"));
-        Assert.assertTrue(key == 2);
+        Assert.assertTrue(key.equals(2));
         Company company = (Company) repository.getByKey(Company.class, key);
         company.setName("Test2");
         Assert.assertTrue(company.getId() == repository.save(company));

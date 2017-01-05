@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -29,7 +30,7 @@ import ca.qc.bergeron.marcantoine.crammeur.repository.Repository;
 /**
  * Created by Marc-Antoine Bergeron on 2016-07-02.
  */
-abstract class CRUD<T extends ca.qc.bergeron.marcantoine.crammeur.model.i.Data<K>, K> extends DataFramework<T, K> implements ca.qc.bergeron.marcantoine.crammeur.repository.crud.i.CRUD<T, K> {
+abstract class CRUDFile<T extends ca.qc.bergeron.marcantoine.crammeur.model.i.Data<K>, K> extends DataFramework<T, K> implements ca.qc.bergeron.marcantoine.crammeur.repository.crud.i.CRUD<T, K> {
 
     static class Key implements Serializable {
         Object mKey1;
@@ -58,15 +59,15 @@ abstract class CRUD<T extends ca.qc.bergeron.marcantoine.crammeur.model.i.Data<K
     protected final boolean mUpdateCascade;
     protected final boolean mDeleteCascade;
 
-    protected CRUD(Class<T> pClass, Class<K> pKey, final Repository pRepository) {
+    protected CRUDFile(Class<T> pClass, Class<K> pKey, final Repository pRepository) {
         this(pClass, pKey, pRepository, true);
     }
 
-    protected CRUD(Class<T> pClass, Class<K> pKey, final Repository pRepositroy, boolean pRollback) {
+    protected CRUDFile(Class<T> pClass, Class<K> pKey, final Repository pRepositroy, boolean pRollback) {
         this(pClass, pKey, pRepositroy, pRollback, false, false);
     }
 
-    protected CRUD(Class<T> pClass, Class<K> pKey, final Repository pRepositroy, boolean pRollback, boolean pUpdateCascade, boolean pDeleteCascade) {
+    protected CRUDFile(Class<T> pClass, Class<K> pKey, final Repository pRepositroy, boolean pRollback, boolean pUpdateCascade, boolean pDeleteCascade) {
         super(pClass, pKey, pRepositroy);
         Set<Field> fBD;
         synchronized (mClazz) {
@@ -456,5 +457,77 @@ abstract class CRUD<T extends ca.qc.bergeron.marcantoine.crammeur.model.i.Data<K
     }
 
     public abstract void deleteTable();
+
+    /**
+     * @return
+     * @throws NextAvailableIdException
+     */
+    @NonNull
+    protected K nextAvailableId() throws NextAvailableIdException {
+        synchronized (mClazz) {
+            try {
+                K max = null;
+                for (K a : this.getAllKeys()) {
+                    if (mKey.isAssignableFrom(Integer.class)) {
+                        K val = mKey.cast(Integer.parseInt(a.toString()) + 1);
+                        if (!this.contains(val)) {
+                            max = val;
+                        }
+                    } else if (mKey.isAssignableFrom(Long.class)) {
+                        K val = mKey.cast(Long.parseLong(a.toString()) + 1);
+                        if (!this.contains(val))
+                            max = val;
+                    } else if (mKey.isAssignableFrom(String.class)) {
+                        final Long m1;
+                        final Long m2;
+                        if (((String) mKey.cast(max)).length() > 16) {
+                            m1 = new BigInteger(((String) mKey.cast(max)).substring(0, 16), 16).longValue();
+                            m2 = new BigInteger(((String) mKey.cast(max)).substring(16), 16).longValue();
+                        } else {
+                            m1 = new BigInteger(((String) mKey.cast(max)), 16).longValue();
+                            m2 = 0l;
+                        }
+                        final String tk = (String) mKey.cast(a);
+                        final Long l1;
+                        final Long l2;
+                        if (tk.length() > 16) {
+                            l1 = new BigInteger(tk.substring(0, 16), 16).longValue();
+                            l2 = new BigInteger(tk.substring(16), 16).longValue();
+
+                        } else {
+                            l1 = new BigInteger(tk, 16).longValue();
+                            l2 = 0l;
+                        }
+                        if ((m2.equals(l2) && ((m1 - l1) <= 0 && ((m1 > 0 && l1 > 0) || (m1 < 0 && l1 < 0)) || (m1 > 0 && l1 < 0)) ||
+                                (m1.equals(l1) && ((m2 - l2) <= 0 && ((m2 > 0 && l2 > 0) || (m1 < 0 && l1 < 0)) || (m2 > 0 && l2 < 0))))) {
+                            if (l1 + 1 == 0) {
+                                K val = mKey.cast(Long.toHexString(l1) + Long.toHexString(l2 + 1));
+                                if (!this.contains(val))
+                                    max = val;
+                            } else {
+                                K val = mKey.cast(Long.toHexString(l1 + 1));
+                                if (!this.contains(val))
+                                    max = val;
+                            }
+                        }
+                    }
+                }
+                if (max == null && this.getAllKeys().size() == 0) {
+                    if (mKey.getGenericSuperclass().equals(Number.class)) {
+                        max = mKey.cast(1);
+                    } else if (mKey.isAssignableFrom(String.class)) {
+                        max = mKey.cast(Long.toHexString(1));
+                    }
+                }
+                if (max == null) throw new NextAvailableIdException();
+                return max;
+            } catch (NextAvailableIdException naie) {
+                throw naie;
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new NextAvailableIdException();
+            }
+        }
+    }
 
 }
